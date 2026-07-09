@@ -28,7 +28,10 @@ const sendEmail = async ({ to, subject, text, html, logLabel }) => {
           clientId: process.env.GMAIL_CLIENT_ID,
           clientSecret: process.env.GMAIL_CLIENT_SECRET,
           refreshToken: process.env.GMAIL_REFRESH_TOKEN
-        }
+        },
+        connectionTimeout: 5000, // 5 seconds connection timeout
+        greetingTimeout: 5000,   // 5 seconds greeting timeout
+        socketTimeout: 5000      // 5 seconds socket inactivity timeout
       });
 
       await transporter.sendMail({
@@ -63,7 +66,10 @@ const sendEmail = async ({ to, subject, text, html, logLabel }) => {
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
-        }
+        },
+        connectionTimeout: 5000, // 5 seconds connection timeout
+        greetingTimeout: 5000,   // 5 seconds greeting timeout
+        socketTimeout: 5000      // 5 seconds socket inactivity timeout
       });
 
       await transporter.sendMail({

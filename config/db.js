@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const dns = require("dns");
-console.log(process.env.MONGODB_URI); // Log the MongoDB URI to verify it's being read correctly
 
 const connectDB = async () => {
   try {

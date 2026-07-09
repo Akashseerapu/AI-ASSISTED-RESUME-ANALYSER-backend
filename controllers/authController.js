@@ -63,7 +63,7 @@ exports.register = async (req, res) => {
     res.status(201).json({
       message: "Verification code sent to your email (check your spam folder if you don't see it). Please enter it to complete registration.",
       email: user.email,
-      devOTP: otp // Include code in response for easier local testing/development
+      devOTP: process.env.NODE_ENV === "development" ? otp : undefined // Include code in response for easier local testing/development
     });
   } catch (error) {
     res.status(500).json({ message: "Server error during registration", error: error.message });
@@ -107,7 +107,7 @@ exports.login = async (req, res) => {
         status: "unverified",
         message: "Your email address is not verified. A verification code has been sent to your email (check your spam folder if you don't see it).",
         email: user.email,
-        devOTP: otp
+        devOTP: process.env.NODE_ENV === "development" ? otp : undefined
       });
     }
 
@@ -199,7 +199,7 @@ exports.resendVerificationOTP = async (req, res) => {
 
     res.json({
       message: "A new verification code has been sent to your email (check your spam folder if you don't see it).",
-      devOTP: otp
+      devOTP: process.env.NODE_ENV === "development" ? otp : undefined
     });
   } catch (error) {
     res.status(500).json({ message: "Server error during resend", error: error.message });
@@ -236,7 +236,7 @@ exports.forgotPassword = async (req, res) => {
 
     res.json({
       message: "If an account exists with that email, a verification code has been sent (check your spam folder if you don't see it).",
-      devOTP: otp
+      devOTP: process.env.NODE_ENV === "development" ? otp : undefined
     });
   } catch (error) {
     res.status(500).json({ message: "Server error during forgot password", error: error.message });

@@ -1,4 +1,10 @@
 const nodemailer = require("nodemailer");
+const dns = require("dns");
+
+// Force Node to prefer IPv4 resolution to prevent ENETUNREACH errors on Render/Docker environments
+if (typeof dns.setDefaultResultOrder === "function") {
+  dns.setDefaultResultOrder("ipv4first");
+}
 
 /**
  * Shared helper to send emails via Gmail API (OAuth2) or fallback SMTP.

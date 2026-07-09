@@ -9,7 +9,7 @@ connectDB();
 
 const app = express();
 const apiKey = process.env.GEMINI_API_KEY;
-console.log("GEMINI_API_KEY:", apiKey); // Log the API key to verify it's being read correctly
+
 console.log("Mailer Configured:", {
   method: (process.env.GMAIL_CLIENT_ID && process.env.GMAIL_CLIENT_SECRET && process.env.GMAIL_REFRESH_TOKEN) ? "Gmail API (OAuth2)" : (process.env.EMAIL_HOST ? "SMTP" : "None"),
   user: process.env.EMAIL_USER

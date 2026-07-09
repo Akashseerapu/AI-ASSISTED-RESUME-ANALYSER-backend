@@ -29,6 +29,9 @@ const sendEmail = async ({ to, subject, text, html, logLabel }) => {
           clientSecret: process.env.GMAIL_CLIENT_SECRET,
           refreshToken: process.env.GMAIL_REFRESH_TOKEN
         }
+        connectionTimeout: 5000, // 5 seconds connection timeout
+        greetingTimeout: 5000,   // 5 seconds greeting timeout
+        socketTimeout: 5000      // 5 seconds socket inactivity timeout
       });
 
       await transporter.sendMail({

@@ -26,7 +26,7 @@ const limiter = rateLimit({
 });
 
 // Middleware
-app.use(limiter);
+app.use("/api", limiter);
 
 // Configure CORS dynamically to allow any local development port (e.g. 5173, 5174, etc.)
 const corsOptions = {
@@ -58,10 +58,26 @@ app.use("/api/ai", require("./routes/aiRoutes"));
 app.use("/api/user", require("./routes/userRoutes"));
 app.use("/api/portfolio", require("./routes/portfolioRoutes"));
 
-// Base Check API
-app.get("/", (req, res) => {
+// Health Check API (for keep-alives and sanity checking)
+app.get("/api/health", (req, res) => {
   res.json({ status: "online", message: "AI Resume Analyzer Backend API is running." });
 });
+
+// Serve frontend static assets in production
+if (process.env.NODE_ENV === "production") {
+  // Serve static files from the React frontend/dist folder
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  // Catch-all route to serve React's index.html for client-side routing
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  });
+} else {
+  // Base Check API for local development
+  app.get("/", (req, res) => {
+    res.json({ status: "online", message: "AI Resume Analyzer Backend API is running in development." });
+  });
+}
 
 // Global Error Handler
 app.use((err, req, res, next) => {
